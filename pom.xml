@@ -4,7 +4,7 @@
 
 	<groupId>com.github.esempla</groupId>
 	<artifactId>validator</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.2</version>
 	<packaging>jar</packaging>
 
 	<name>Validator</name>
@@ -35,7 +35,7 @@
 		<connection>scm:git:git://github.com/esempla/validator.git</connection>
 		<developerConnection>scm:git:ssh://github.com/esempla/validator.git</developerConnection>
 		<url>https://github.com/esempla/validator</url>
-		<tag>HEAD</tag>
+		<tag>validator-0.2</tag>
 	</scm>
 
 	<distributionManagement>
@@ -45,7 +45,7 @@
 		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 	</distributionManagement>
 
