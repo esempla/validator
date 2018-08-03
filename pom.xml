@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.github.sgaraba</groupId>
+	<artifactId>validator</artifactId>
+	<version>2.0.4</version>
+	<packaging>jar</packaging>
+
+	<name>validator</name>
+	<description>Hibernate unique constrain validator</description>
+
+	<scm>
+		<connection>scm:git:git://github.com/sgaraba/validator.git</connection>
+		<developerConnection>scm:git:ssh://github.com/sgaraba/validator.git</developerConnection>
+		<url>http://github.com/sgaraba/validator/tree/master</url>
+	</scm>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.4.RELEASE</version>
+		<relativePath/>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>validator-${project.version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-publish-plugin</artifactId>
+				<configuration>
+					<pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
+					<scmBranch>gh-pages</scmBranch>
+					<content>${project.reporting.outputDirectory}</content>
+				</configuration>
+				<executions>
+					<execution>
+						<id>scm-publish</id>
+						<phase>site-deploy</phase>
+						<goals>
+							<goal>publish-scm</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<inherited>false</inherited>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<stagingProfileId>42b61fb4c62700</stagingProfileId>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>-->
+			<plugin>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<configuration>
+					<useAgent>true</useAgent>
+				</configuration>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<inherited>true</inherited>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<updateReleaseInfo>true</updateReleaseInfo>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<!-- We want to sign the artifact, the POM, and all attached artifacts -->
+
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

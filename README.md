@@ -1,0 +1,1 @@
+Hibernate unique constrain validator
