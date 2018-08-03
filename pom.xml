@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.sgaraba</groupId>
+	<groupId>com.github.esempla</groupId>
 	<artifactId>validator</artifactId>
-	<version>2.0.4</version>
+	<version>0.1</version>
 	<packaging>jar</packaging>
 
-	<name>validator</name>
+	<name>Validator</name>
 	<description>Hibernate unique constrain validator</description>
+	<url>https://github.com/esempla/validator</url>
+
+	<organization>
+		<url>https://github.com/esempla/validator</url>
+		<name>Esempla</name>
+	</organization>
+	<inceptionYear>2018</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Sergiu Garaba</name>
+			<email>sergiu.garaba@gmail.com</email>
+		</developer>
+	</developers>
 
 	<scm>
-		<connection>scm:git:git://github.com/sgaraba/validator.git</connection>
-		<developerConnection>scm:git:ssh://github.com/sgaraba/validator.git</developerConnection>
-		<url>http://github.com/sgaraba/validator/tree/master</url>
+		<connection>scm:git:git://github.com/esempla/validator.git</connection>
+		<developerConnection>scm:git:ssh://github.com/esempla/validator.git</developerConnection>
+		<url>https://github.com/esempla/validator</url>
+		<tag>validator-0.1</tag>
 	</scm>
 
 	<distributionManagement>
@@ -28,12 +49,11 @@
 		</repository>
 	</distributionManagement>
 
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.4.RELEASE</version>
-		<relativePath/>
+		<relativePath />
 	</parent>
 
 	<properties>
@@ -58,48 +78,35 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-scm-publish-plugin</artifactId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
 				<configuration>
-					<pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
-					<scmBranch>gh-pages</scmBranch>
-					<content>${project.reporting.outputDirectory}</content>
+					<checkModificationExcludes>
+						<checkModificationExclude>pom.xml</checkModificationExclude>
+					</checkModificationExcludes>
+					<localCheckout>true</localCheckout>
+					<pushChanges>false</pushChanges>
+					<mavenExecutorId>forked-path</mavenExecutorId>
+					<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
 				</configuration>
-				<executions>
-					<execution>
-						<id>scm-publish</id>
-						<phase>site-deploy</phase>
-						<goals>
-							<goal>publish-scm</goal>
-						</goals>
-					</execution>
-				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-provider-gitexe</artifactId>
+						<version>1.9.5</version>
+					</dependency>
+				</dependencies>
 			</plugin>
-			<!--<plugin>
+			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
 				<extensions>true</extensions>
-				<inherited>false</inherited>
 				<configuration>
 					<serverId>ossrh</serverId>
 					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<stagingProfileId>42b61fb4c62700</stagingProfileId>
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
-			</plugin>-->
-			<plugin>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<configuration>
-					<useAgent>true</useAgent>
-				</configuration>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<inherited>true</inherited>
@@ -109,7 +116,9 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -139,10 +148,28 @@
 	<profiles>
 		<profile>
 			<id>release</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
 			<build>
 				<plugins>
-					<!-- We want to sign the artifact, the POM, and all attached artifacts -->
-
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
