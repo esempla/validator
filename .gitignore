@@ -1,5 +1,3 @@
-/target/
-!.mvn/wrapper/maven-wrapper.jar
 
 ### IntelliJ IDEA ###
 .idea
@@ -12,6 +10,12 @@
 .idea/
 
 !/README.md
-!/README.md
 /validator.iml
 validator.iml
+/target/
+
+/release.properties
+/.gitignore
+
+release.properties
+.gitignore
